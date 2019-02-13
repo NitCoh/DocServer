@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="DocServer:war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/DocServer_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="DocServer/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="DocServer" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
