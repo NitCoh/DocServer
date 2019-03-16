@@ -4,7 +4,7 @@ public interface Connections<T> {
 
     boolean send(int connectionId, T msg);
 
-    void broadcast(Runnable r,int updater);
+    void broadcast(T msg,T updaterMsg,int updater);
 
     void disconnect(int connectionId);
 }

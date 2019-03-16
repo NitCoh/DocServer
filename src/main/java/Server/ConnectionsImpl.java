@@ -25,18 +25,16 @@ public class ConnectionsImpl<T> implements Connections<T> {
     }
 
     @Override
-    public void broadcast(Runnable r, int updater) {
-            for (ConnectionHandler<T> connectionHandler : activeClients.values()) {
-                if(((BlockingConnectionHandler)connectionHandler).getMyID()!=updater)
-                    ((BlockingConnectionHandler<T>) connectionHandler).submit(()->{
-                        int tofill=0;
+    public void broadcast(T msg,T updaterMsg, int updater) {
+            for (ConnectionHandler<T> connectionHandler : activeClients.values())
+                if (((BlockingConnectionHandler) connectionHandler).getMyID() != updater)
+                    ((BlockingConnectionHandler<T>) connectionHandler).submit(() -> {
+                        connectionHandler.send(msg);
                     });
-                    else
-                        ((BlockingConnectionHandler<T>) connectionHandler).submit(()->{
-                            int tofill=0;
-                        });
-
-            }
+                else
+                    ((BlockingConnectionHandler<T>) connectionHandler).submit(() -> {
+                        connectionHandler.send(updaterMsg);
+                    });
     }
 
     @Override

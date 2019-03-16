@@ -1,5 +1,6 @@
 package Protocol;
 
+import Server.ConnectionHandler;
 import Server.Connections;
 
 public interface DocProtocol<T>  {
@@ -8,7 +9,7 @@ public interface DocProtocol<T>  {
 	**/
     void start(int connectionId, Connections<T> connections);
     
-    void process(T message);
+    void process(T message, ConnectionHandler handler);
 	
 	/**
      * @return true if the connection should be terminated

@@ -1,7 +1,9 @@
 package Protocol;
+import Server.ConnectionHandler;
+import Server.Server;
 
 public interface Message {
 
-    public void process();
-    public byte[] encodeMe();
+    void process(Server server, ConnectionHandler handler);
+    byte[] encodeMe();
 }

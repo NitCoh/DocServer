@@ -1,6 +1,7 @@
 package Server;
 
 
+import Protocol.DiffMessage;
 import Protocol.DocProtocol;
 import Protocol.MessageEncoderDecoder;
 
@@ -19,7 +20,7 @@ public class DocTPC<T> implements Server<T> {
 //    private final ActorThreadPool pool;
     private Selector selector;
     private ConnectionsImpl<T> connections;
-
+    private Text myDoc;
     private Thread selectorThread;
 //    private final ConcurrentLinkedQueue<Runnable> selectorTasks = new ConcurrentLinkedQueue<>();
 
@@ -33,12 +34,13 @@ public class DocTPC<T> implements Server<T> {
         this.protocolFactory = protocolFactory;
         this.readerFactory = readerFactory;
         this.connections = new ConnectionsImpl<T>();
+        myDoc=new Text();
     }
 
     @Override
     public void serve() {
         selectorThread = Thread.currentThread();
-        try  (Selector selector = Selector.open();
+        try(Selector selector = Selector.open();
              ServerSocketChannel serverSock = ServerSocketChannel.open()) {
 
             this.selector = selector; //just to be able to close
@@ -104,13 +106,15 @@ public class DocTPC<T> implements Server<T> {
         }
     }
 
-    private void distributeUpdates(){
-
+    public void distributeUpdates(T msg,T updaterMsg, int updater){
+        connections.broadcast(msg,updaterMsg,updater);
     }
 
     @Override
     public void close() throws IOException {
         selector.close();
     }
+
+    public Text getMyDoc(){return myDoc;}
 
 }

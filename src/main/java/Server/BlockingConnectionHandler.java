@@ -2,6 +2,7 @@ package Server;
 
 import Protocol.DocProtocol;
 import Protocol.MessageEncoderDecoder;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -82,7 +83,7 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
                     while (buf.hasRemaining()) {
                         T nextMessage = encdec.decodeNextByte(buf.get());
                         if (nextMessage != null) {
-                            protocol.process(nextMessage);
+                            protocol.process(nextMessage,this);
                         }
                     }
                 } finally {
@@ -99,6 +100,15 @@ public class BlockingConnectionHandler<T> implements Runnable, ConnectionHandler
     @Override
     public void send(T msg) {
         byte[] encodedMsg = encdec.encode(msg);
+        ByteBuffer toSend=ByteBuffer.wrap(encodedMsg);
+        while(toSend.hasRemaining()) {
+            try{
+            sock.write(toSend);}
+            catch(IOException ex){
+                ex.printStackTrace();
+                close();
+            }
+        }
     }
 
     private static ByteBuffer leaseBuffer() {

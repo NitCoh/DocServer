@@ -1,11 +1,16 @@
 package Protocol;
 
+import Server.Server;
+
 public class AckApply implements Message {
-    public byte[] encodeMe() {
-        return new byte[0];
+
+    @Override
+    public void process(Server server) {
+
     }
 
-    public void process() {
-
+    @Override
+    public byte[] encodeMe() {
+        return new byte[0];
     }
 }

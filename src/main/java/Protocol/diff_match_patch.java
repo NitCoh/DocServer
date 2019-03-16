@@ -1,4 +1,4 @@
-/*
+package Protocol;/*
  * Diff Match and Patch
  * Copyright 2018 The diff-match-patch Authors.
  * https://github.com/google/diff-match-patch
@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 public class diff_match_patch {
 
   // Defaults.
-  // Set these on your diff_match_patch instance to override the defaults.
+  // Set these on your Protocol.diff_match_patch instance to override the defaults.
 
   /**
    * Number of seconds to map a diff before giving up (0 for infinity).
